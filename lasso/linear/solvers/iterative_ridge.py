@@ -2,11 +2,21 @@ import warnings
 from torch import Tensor
 import torch
 from scipy.optimize import minimize_scalar
-from scipy.optimize.optimize import _status_message
+# from scipy.optimize.optimize import _status_message
 
 from ...conjgrad import conjgrad
 from ..utils import batch_cholesky_solve
-
+# https://github.com/Harry24k/adversarial-attacks-pytorch/commit/315913fd5c1d493d618c54dc27c64af1f5f34726
+_status_message = {'success': 'Optimization terminated successfully.', 
+                   'maxfev': 'Maximum number of function evaluations has '
+                              'been exceeded.',
+                   'maxiter': 'Maximum number of iterations has been '
+                              'exceeded.',
+                   'pr_loss': 'Desired error not necessarily achieved due '
+                              'to precision loss.',
+                   'nan': 'NaN result encountered.',
+                   'out_of_bounds': 'The result is outside of the provided '
+                                    'bounds.'}
 
 def iterative_ridge(z0, x, weight, alpha=1.0, tol=1e-5, tikhonov=1e-4, eps=None,
                     maxiter=10, line_search=True, cg=False, cg_options=None,
